@@ -750,8 +750,9 @@
                         </div>
                     </div>
                 </div>
-                <form class="contact__form reveal" id="contactForm" name="contact" method="POST" data-netlify="true">
+                <form class="contact__form reveal" id="contactForm" name="contact" action="/" method="POST" data-netlify="true" netlify-honeypot="bot-field">
                     <input type="hidden" name="form-name" value="contact" />
+                    <p style="display:none"><input name="bot-field" /></p>
                     <div class="form__group">
                         <label for="name" class="form__label">Full Name</label>
                         <input type="text" id="name" name="name" class="form__input" placeholder="John Smith"
