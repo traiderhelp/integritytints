@@ -53,6 +53,7 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: var(--nav-height);
+  overflow-x: hidden;
 }
 
 body {
@@ -314,7 +315,11 @@ button {
 
 @media (max-width: 900px) {
   .nav__links {
-    display: none;
+    display: none !important;
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
   }
 
   .nav__hamburger {
@@ -478,6 +483,8 @@ button {
   margin: 0 auto;
   padding: 0 24px;
   padding-top: calc(var(--nav-height) + 40px);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .hero__badge {
@@ -655,7 +662,35 @@ button {
   }
 
   .hero__content {
-    padding-top: calc(var(--nav-height) + 24px);
+    padding-top: calc(var(--nav-height) + 16px);
+  }
+
+  .hero {
+    align-items: flex-start;
+    min-height: auto;
+    padding-bottom: 40px;
+  }
+
+  .hero__badge {
+    font-size: 0.72rem;
+    padding: 8px 16px;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    margin-bottom: 32px;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .container {
+    max-width: 100%;
+    overflow: hidden;
   }
 }
 
