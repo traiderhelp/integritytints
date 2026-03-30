@@ -1,0 +1,35 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/gallery"
+public_folder: "/gallery"
+
+collections:
+  - name: "gallery"
+    label: "Gallery Settings"
+    files:
+      - name: "gallery-data"
+        label: "Gallery Photos"
+        file: "public/gallery-data.json"
+        format: "json"
+        fields:
+          - name: "beforeAfter"
+            label: "Before & After Photos"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { name: "title", label: "Title", widget: "string" }
+              - { name: "description", label: "Description", widget: "string" }
+              - { name: "beforeImage", label: "Before Photo", widget: "image" }
+              - { name: "beforeAlt", label: "Before Alt Text", widget: "string", default: "Window before tinting" }
+              - { name: "afterImage", label: "After Photo", widget: "image" }
+              - { name: "afterAlt", label: "After Alt Text", widget: "string", default: "Window after professional tinting" }
+          - name: "projects"
+            label: "Project Photos"
+            widget: "list"
+            summary: "{{fields.caption}}"
+            fields:
+              - { name: "image", label: "Photo", widget: "image" }
+              - { name: "caption", label: "Caption", widget: "string", default: "Professional installation" }
+              - { name: "alt", label: "Alt Text", widget: "string", default: "Completed window tinting project" }

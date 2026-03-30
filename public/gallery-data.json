@@ -1,0 +1,37 @@
+{
+  "beforeAfter": [
+    {
+      "title": "Residential Window Tinting",
+      "description": "Heat rejection & UV protection film installed",
+      "beforeImage": "/gallery/before.JPG",
+      "beforeAlt": "Window before tinting - untreated glass",
+      "afterImage": "/gallery/after.JPG",
+      "afterAlt": "Window after professional tinting"
+    },
+    {
+      "title": "Bathroom Decorative Film",
+      "description": "Decorative privacy film installed",
+      "beforeImage": "/gallery/before2.jpg",
+      "beforeAlt": "Window before tinting - clear glass",
+      "afterImage": "/gallery/after2.jpg",
+      "afterAlt": "Window after professional tinting"
+    }
+  ],
+  "projects": [
+    {
+      "image": "/gallery/IMG_0838.jpeg",
+      "caption": "Professional installation",
+      "alt": "Completed window tinting project"
+    },
+    {
+      "image": "/gallery/IMG_0864.jpeg",
+      "caption": "Professional installation",
+      "alt": "Completed window tinting project"
+    },
+    {
+      "image": "/gallery/IMG_2261.jpeg",
+      "caption": "Professional installation",
+      "alt": "Completed window tinting project"
+    }
+  ]
+}

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileCTA();
     initSmoothScroll();
     initEstimator();
+    initGallery();
 });
 
 // ══════════════════════════════════════════════
@@ -359,3 +360,118 @@ function initEstimator() {
 const style = document.createElement('style');
 style.textContent = `@keyframes spin { to { transform: rotate(360deg); } }`;
 document.head.appendChild(style);
+
+// ─── Dynamic Gallery (CMS-driven) ───
+function initGallery() {
+    const baGrid = document.getElementById('baGrid');
+    const projectsGrid = document.getElementById('projectsGrid');
+    if (!baGrid && !projectsGrid) return;
+
+    fetch('/gallery-data.json')
+        .then(res => res.json())
+        .then(data => {
+            // Render Before & After cards
+            if (baGrid && data.beforeAfter) {
+                baGrid.innerHTML = data.beforeAfter.map(item => `
+                    <div class="ba-card reveal">
+                        <div class="ba-card__images">
+                            <div class="ba-card__side">
+                                <span class="ba-card__label">Before</span>
+                                <img src="${item.beforeImage}" alt="${item.beforeAlt}" loading="lazy" />
+                            </div>
+                            <div class="ba-card__side">
+                                <span class="ba-card__label">After</span>
+                                <img src="${item.afterImage}" alt="${item.afterAlt}" loading="lazy" />
+                            </div>
+                            <div class="ba-card__divider"></div>
+                        </div>
+                        <div class="ba-card__body">
+                            <h3 class="ba-card__title">${item.title}</h3>
+                            <p class="ba-card__desc">${item.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Render Project cards
+            if (projectsGrid && data.projects) {
+                projectsGrid.innerHTML = data.projects.map(item => `
+                    <div class="project-card reveal">
+                        <img src="${item.image}" alt="${item.alt}" loading="lazy" />
+                        <div class="project-card__overlay"></div>
+                        <span class="project-card__caption">${item.caption}</span>
+                    </div>
+                `).join('');
+
+                // Init carousel after rendering
+                initProjectCarousel(data.projects.length);
+            }
+
+            // Re-run scroll reveal for dynamically added elements
+            initScrollReveal();
+        })
+        .catch(err => {
+            console.error('Failed to load gallery data:', err);
+        });
+}
+
+// ─── Project Photos Carousel ───
+function initProjectCarousel(totalItems) {
+    const grid = document.getElementById('projectsGrid');
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    if (!grid || !prevBtn || !nextBtn) return;
+
+    let currentIndex = 0;
+
+    function getVisibleCount() {
+        const width = window.innerWidth;
+        if (width <= 540) return 1;
+        if (width <= 900) return 2;
+        return 3;
+    }
+
+    function getMaxIndex() {
+        const visible = getVisibleCount();
+        return Math.max(0, totalItems - visible);
+    }
+
+    function updateCarousel() {
+        const visible = getVisibleCount();
+        const gapPx = 24;
+        // Each card width = (viewport width - gaps) / visible
+        // Using percentage-based transform: shift by (100% + gap) per card
+        const cardPercent = 100 / visible;
+        const gapOffset = (gapPx * currentIndex);
+        const translateX = -(currentIndex * cardPercent);
+        grid.style.transform = `translateX(calc(${translateX}% - ${gapOffset}px + ${currentIndex * (gapPx / visible)}px))`;
+
+        prevBtn.disabled = currentIndex <= 0;
+        nextBtn.disabled = currentIndex >= getMaxIndex();
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < getMaxIndex()) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+
+    // Reset on resize
+    window.addEventListener('resize', () => {
+        if (currentIndex > getMaxIndex()) {
+            currentIndex = getMaxIndex();
+        }
+        updateCarousel();
+    });
+
+    // Initial state
+    updateCarousel();
+}

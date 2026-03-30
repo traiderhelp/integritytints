@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 
 <body>
@@ -96,7 +97,7 @@
                 <span class="hero__title-accent">Lose the Heat.</span>
             </h1>
             <p class="hero__subtitle">
-                Owned and operated by a local with over 27 years of experience. Professional residential &
+                Owned and operated by a Sarasota native with over 27 years of experience. Professional residential &
                 commercial window film installation serving Sarasota, Bradenton, and Southwest Florida.
             </p>
             <div class="hero__actions">
@@ -263,62 +264,29 @@
                     from actual installations across Southwest Florida.</p>
             </div>
 
-            <!-- Before & After Comparisons -->
-            <div class="gallery__before-after-grid">
-                <div class="ba-card reveal">
-                    <div class="ba-card__images">
-                        <div class="ba-card__side">
-                            <span class="ba-card__label">Before</span>
-                            <img src="images/before.JPG" alt="Window before tinting - untreated glass" loading="lazy" />
-                        </div>
-                        <div class="ba-card__side">
-                            <span class="ba-card__label">After</span>
-                            <img src="images/after.JPG" alt="Window after professional tinting" loading="lazy" />
-                        </div>
-                        <div class="ba-card__divider"></div>
-                    </div>
-                    <div class="ba-card__body">
-                        <h3 class="ba-card__title">Residential Window Tinting</h3>
-                        <p class="ba-card__desc">Heat rejection &amp; UV protection film installed</p>
-                    </div>
-                </div>
-                <div class="ba-card reveal">
-                    <div class="ba-card__images">
-                        <div class="ba-card__side">
-                            <span class="ba-card__label">Before</span>
-                            <img src="images/before2.jpg" alt="Window before tinting - clear glass" loading="lazy" />
-                        </div>
-                        <div class="ba-card__side">
-                            <span class="ba-card__label">After</span>
-                            <img src="images/after2.jpg" alt="Window after professional tinting" loading="lazy" />
-                        </div>
-                        <div class="ba-card__divider"></div>
-                    </div>
-                    <div class="ba-card__body">
-                        <h3 class="ba-card__title">Bathroom Decorative Film</h3>
-                        <p class="ba-card__desc">Decorative privacy film installed</p>
-                    </div>
-                </div>
+            <!-- Before & After Comparisons (loaded dynamically from CMS) -->
+            <div class="gallery__before-after-grid" id="baGrid">
+                <!-- Populated by main.js from gallery-data.json -->
             </div>
 
-            <!-- More Completed Projects -->
+            <!-- More Completed Projects (loaded dynamically from CMS) -->
             <h3 class="gallery__subtitle reveal">More Completed Projects</h3>
-            <div class="gallery__projects-grid">
-                <div class="project-card reveal">
-                    <img src="images/IMG_0838.jpeg" alt="Completed window tinting project" loading="lazy" />
-                    <div class="project-card__overlay"></div>
-                    <span class="project-card__caption">Professional installation</span>
+            <div class="gallery__carousel">
+                <button class="carousel__arrow carousel__arrow--left" id="carouselPrev" aria-label="Previous projects">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                </button>
+                <div class="carousel__viewport">
+                    <div class="gallery__projects-grid" id="projectsGrid">
+                        <!-- Populated by main.js from gallery-data.json -->
+                    </div>
                 </div>
-                <div class="project-card reveal">
-                    <img src="images/IMG_0864.jpeg" alt="Completed window tinting project" loading="lazy" />
-                    <div class="project-card__overlay"></div>
-                    <span class="project-card__caption">Professional installation</span>
-                </div>
-                <div class="project-card reveal">
-                    <img src="images/IMG_2261.jpeg" alt="Completed window tinting project" loading="lazy" />
-                    <div class="project-card__overlay"></div>
-                    <span class="project-card__caption">Professional installation</span>
-                </div>
+                <button class="carousel__arrow carousel__arrow--right" id="carouselNext" aria-label="Next projects">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                </button>
             </div>
         </div>
     </section>
@@ -750,7 +718,8 @@
                         </div>
                     </div>
                 </div>
-                <form class="contact__form reveal" id="contactForm" name="contact" action="/" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <form class="contact__form reveal" id="contactForm" name="contact" action="/" method="POST"
+                    data-netlify="true" netlify-honeypot="bot-field">
                     <input type="hidden" name="form-name" value="contact" />
                     <p style="display:none"><input name="bot-field" /></p>
                     <div class="form__group">
@@ -871,6 +840,17 @@
     </div>
 
     <script type="module" src="main.js"></script>
+    <script>
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on('init', function(user) {
+                if (!user) {
+                    window.netlifyIdentity.on('login', function() {
+                        document.location.href = '/admin/';
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
