@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice Manager — Integrity Window Tinting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="invoice.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════ PASSWORD GATE ═══════════════ -->
+    <div class="gate" id="gate">
+        <div class="gate__card">
+            <img src="/images/logo.png" alt="Integrity Window Tinting" class="gate__logo" />
+            <h1 class="gate__title">Invoice Manager</h1>
+            <p class="gate__subtitle">Enter the admin password to continue</p>
+            <form class="gate__form" id="gateForm">
+                <input type="password" id="gatePassword" class="gate__input" placeholder="Password"
+                    autocomplete="current-password" required />
+                <button type="submit" class="gate__btn">Unlock <svg width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                        <polyline points="10 17 15 12 10 7" />
+                        <line x1="15" y1="12" x2="3" y2="12" />
+                    </svg></button>
+                <p class="gate__error" id="gateError"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══════════════ MAIN APP ═══════════════ -->
+    <div class="app" id="app" style="display:none;">
+
+        <!-- ─── Top Bar ─── -->
+        <header class="topbar">
+            <div class="topbar__left">
+                <img src="/images/logo.png" alt="Logo" class="topbar__logo" />
+                <h1 class="topbar__title">Invoice Manager</h1>
+            </div>
+            <nav class="topbar__nav">
+                <button class="topbar__tab active" data-tab="create">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="12" y1="18" x2="12" y2="12" />
+                        <line x1="9" y1="15" x2="15" y2="15" />
+                    </svg>
+                    Create Invoice
+                </button>
+                <button class="topbar__tab" data-tab="history">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    History
+                </button>
+            </nav>
+        </header>
+
+        <!-- ═══════════════ CREATE TAB ═══════════════ -->
+        <main class="content" id="tabCreate">
+            <div class="layout">
+
+                <!-- ─── LEFT: Form ─── -->
+                <section class="form-panel">
+                    <h2 class="form-panel__heading">Invoice Details</h2>
+
+                    <!-- Date & Invoice # -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invDate">Date</label>
+                            <input type="date" id="invDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="invNumber">Invoice / Ref #</label>
+                            <input type="text" id="invNumber" placeholder="Auto-generated" readonly />
+                        </div>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <fieldset class="form-fieldset">
+                        <legend>Customer Information</legend>
+                        <div class="form-row">
+                            <div class="form-group form-group--full">
+                                <label for="custName">Name</label>
+                                <input type="text" id="custName" placeholder="First & Last Name" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group--full">
+                            <label for="custAddress">Address</label>
+                            <input type="text" id="custAddress" placeholder="Street address" />
+                        </div>
+                        <div class="form-row form-row--3">
+                            <div class="form-group">
+                                <label for="custCity">City</label>
+                                <input type="text" id="custCity" />
+                            </div>
+                            <div class="form-group">
+                                <label for="custState">State</label>
+                                <input type="text" id="custState" value="FL" />
+                            </div>
+                            <div class="form-group">
+                                <label for="custZip">Zip</label>
+                                <input type="text" id="custZip" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="custPhone">Phone</label>
+                                <input type="tel" id="custPhone" />
+                            </div>
+                            <div class="form-group">
+                                <label for="custEmail">Email</label>
+                                <input type="email" id="custEmail" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Job Location -->
+                    <fieldset class="form-fieldset">
+                        <legend>Job Location <span class="legend-hint">(if different from customer)</span></legend>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="jobCompany">Company</label>
+                                <input type="text" id="jobCompany" />
+                            </div>
+                            <div class="form-group">
+                                <label for="jobContact">Contact Person</label>
+                                <input type="text" id="jobContact" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group--full">
+                            <label for="jobAddress">Address</label>
+                            <input type="text" id="jobAddress" />
+                        </div>
+                        <div class="form-row form-row--3">
+                            <div class="form-group">
+                                <label for="jobCity">City</label>
+                                <input type="text" id="jobCity" />
+                            </div>
+                            <div class="form-group">
+                                <label for="jobState">State</label>
+                                <input type="text" id="jobState" value="FL" />
+                            </div>
+                            <div class="form-group">
+                                <label for="jobZip">Zip</label>
+                                <input type="text" id="jobZip" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="jobPhone">Phone</label>
+                                <input type="tel" id="jobPhone" />
+                            </div>
+                            <div class="form-group">
+                                <label for="jobEmail">Email</label>
+                                <input type="email" id="jobEmail" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group--full">
+                            <label for="jobSubdivision">Subdivision</label>
+                            <input type="text" id="jobSubdivision" />
+                        </div>
+                    </fieldset>
+
+                    <!-- Job Details -->
+                    <fieldset class="form-fieldset">
+                        <legend>Job Details</legend>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="filmType">Film & Type</label>
+                                <input type="text" id="filmType" placeholder="e.g. V-38" />
+                            </div>
+                            <div class="form-group">
+                                <label for="sealColor">Seal Color</label>
+                                <input type="text" id="sealColor" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="installDate">Install Date & Time</label>
+                                <input type="text" id="installDate" placeholder="e.g. 2/27/26  8:30-9:30" />
+                            </div>
+                            <div class="form-group">
+                                <label for="installer">Installer</label>
+                                <input type="text" id="installer" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group--full">
+                            <label for="specialInstructions">Special Instructions</label>
+                            <textarea id="specialInstructions" rows="2"></textarea>
+                        </div>
+                        <div class="form-group form-group--full">
+                            <label for="scopeOfWork">Scope of Work</label>
+                            <textarea id="scopeOfWork" rows="3"
+                                placeholder="Describe the work to be performed..."></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- Pricing -->
+                    <fieldset class="form-fieldset">
+                        <legend>Pricing</legend>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="total">Total ($)</label>
+                                <input type="number" id="total" step="0.01" min="0" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="rebate">Instant Rebate ($)</label>
+                                <input type="number" id="rebate" step="0.01" min="0" value="0" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="deposit">Deposit ($)</label>
+                                <input type="number" id="deposit" step="0.01" min="0" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label>Grand Total</label>
+                                <div class="form-computed" id="grandTotalDisplay">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="depositCheck">Deposit Check #</label>
+                                <input type="text" id="depositCheck" />
+                            </div>
+                            <div class="form-group">
+                                <label for="balanceCheck">Balance Check #</label>
+                                <input type="text" id="balanceCheck" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Worksheet: Measurements -->
+                    <fieldset class="form-fieldset">
+                        <legend>TWFS Worksheet — Measurements</legend>
+                        <div class="ws-table-wrap">
+                            <table class="ws-table" id="wsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Area / Room</th>
+                                        <th>Removal</th>
+                                        <th>Width (in)</th>
+                                        <th>Height (in)</th>
+                                        <th># Small</th>
+                                        <th># Panes</th>
+                                        <th>SF</th>
+                                        <th>Linear Ft</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="wsBody">
+                                    <!-- Rows added by JS -->
+                                </tbody>
+                                <tfoot>
+                                    <tr class="ws-table__totals">
+                                        <td><strong>Totals</strong></td>
+                                        <td id="wsTotalRemoval">0</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td id="wsTotalSmall">0</td>
+                                        <td></td>
+                                        <td id="wsTotalSF">0</td>
+                                        <td id="wsTotalLinear">0</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <button type="button" class="btn-add-row" id="addWsRow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                            Add Row
+                        </button>
+                    </fieldset>
+
+                    <!-- Worksheet: Pricing -->
+                    <fieldset class="form-fieldset">
+                        <legend>TWFS Worksheet — Pricing</legend>
+                        <p class="form-hint">Film Need (SF + 15%): <strong id="wsFilmNeed">0</strong> SF</p>
+                        <div class="ws-pricing-grid">
+                            <div class="ws-pricing-header">
+                                <span></span>
+                                <span>$ / unit</span>
+                                <span>Rebate</span>
+                                <span>Cost / unit</span>
+                                <span>Subtotal</span>
+                            </div>
+                            <div id="wsFilmRows">
+                                <!-- Dynamic film rows added by JS -->
+                            </div>
+                            <button type="button" class="btn-add-row btn-add-film" id="addFilmRow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Add Film
+                            </button>
+                            <div class="ws-pricing-row">
+                                <label>Seal</label>
+                                <input type="number" id="wsPriceSeal" step="0.01" value="0" />
+                                <input type="number" id="wsRebateSeal" step="0.01" value="0" />
+                                <input type="number" id="wsCostSeal" step="0.01" value="0" />
+                                <span class="ws-subtotal" id="wsSubSeal">$0.00</span>
+                            </div>
+                            <div class="ws-pricing-row">
+                                <label>Removal</label>
+                                <input type="number" id="wsPriceRemoval" step="0.01" value="0" />
+                                <input type="number" id="wsRebateRemoval" step="0.01" value="0" />
+                                <input type="number" id="wsCostRemoval" step="0.01" value="0" />
+                                <span class="ws-subtotal" id="wsSubRemoval">$0.00</span>
+                            </div>
+                            <div class="ws-pricing-row">
+                                <label>Small Windows</label>
+                                <input type="number" id="wsPriceSmall" step="0.01" value="0" />
+                                <input type="number" id="wsRebateSmall" step="0.01" value="0" />
+                                <input type="number" id="wsCostSmall" step="0.01" value="0" />
+                                <span class="ws-subtotal" id="wsSubSmall">$0.00</span>
+                            </div>
+                        </div>
+                        <div class="ws-totals-summary">
+                            <div class="ws-totals-line"><span>Total (at cost):</span><strong
+                                    id="wsCostTotal">$0.00</strong></div>
+                            <div class="ws-totals-line"><span>Total (at price):</span><strong
+                                    id="wsPriceTotal">$0.00</strong></div>
+                            <div class="ws-totals-line"><span>Less Rebate:</span><strong
+                                    id="wsLessRebate">$0.00</strong></div>
+                            <div class="ws-totals-line ws-totals-line--grand"><span>Grand Total:</span><strong
+                                    id="wsGrandTotal">$0.00</strong></div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--primary" id="btnPreview">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            Preview Invoice
+                        </button>
+                        <button type="button" class="btn btn--secondary" id="btnClear">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                            Clear Form
+                        </button>
+                    </div>
+                </section>
+
+                <!-- ─── RIGHT: Preview ─── -->
+                <section class="preview-panel" id="previewPanel">
+                    <div class="preview-panel__toolbar">
+                        <h2 class="preview-panel__heading">Invoice Preview</h2>
+                        <div class="preview-panel__actions">
+                            <button class="btn btn--sm btn--accent" id="btnDownload" disabled>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg>
+                                Download PDF
+                            </button>
+                            <button class="btn btn--sm btn--green" id="btnEmail" disabled>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                Email Invoice
+                            </button>
+                            <button class="btn btn--sm btn--outline" id="btnSave" disabled>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                    <polyline points="17 21 17 13 7 13 7 21" />
+                                    <polyline points="7 3 7 8 15 8" />
+                                </svg>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="preview-empty" id="previewEmpty">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1" opacity="0.3">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                        </svg>
+                        <p>Fill out the form and click <strong>Preview Invoice</strong> to see it here.</p>
+                    </div>
+
+                    <!-- Invoice Page (for PDF) -->
+                    <div class="invoice-render" id="invoiceRender" style="display:none;">
+                        <!-- Page 1: Invoice -->
+                        <div class="invoice-page" id="invoicePage1">
+                            <div class="inv__header">
+                                <img src="/images/logo.png" alt="Integrity Window Tinting" class="inv__logo" />
+                                <div class="inv__company-info">
+                                    <p>Integrity Window Tinting, INC</p>
+                                    <p>Phone: (941) 529-7611</p>
+                                    <p>Email: iwtints@gmail.com</p>
+                                </div>
+                            </div>
+
+                            <div class="inv__meta">
+                                <div class="inv__meta-left">
+                                    <div class="inv__meta-row"><span>Date:</span><span id="pDate"></span></div>
+                                    <div class="inv__meta-row"><span>Name:</span><span id="pCustName"></span></div>
+                                    <div class="inv__meta-row"><span>Address:</span><span id="pCustAddress"></span>
+                                    </div>
+                                    <div class="inv__meta-row"><span>City/State/Zip:</span><span id="pCustCSZ"></span>
+                                    </div>
+                                    <div class="inv__meta-row"><span>Phone:</span><span id="pCustPhone"></span></div>
+                                    <div class="inv__meta-row"><span>Email:</span><span id="pCustEmail"></span></div>
+                                </div>
+                                <div class="inv__meta-right">
+                                    <div class="inv__meta-row"><span>Invoice #:</span><span id="pInvNumber"></span>
+                                    </div>
+                                    <div class="inv__meta-row"><span>Company:</span><span id="pJobCompany"></span></div>
+                                    <div class="inv__meta-row"><span>Address:</span><span id="pJobAddress"></span></div>
+                                    <div class="inv__meta-row"><span>City/State/Zip:</span><span id="pJobCSZ"></span>
+                                    </div>
+                                    <div class="inv__meta-row"><span>Contact:</span><span id="pJobContact"></span></div>
+                                    <div class="inv__meta-row"><span>Phone:</span><span id="pJobPhone"></span></div>
+                                    <div class="inv__meta-row"><span>Email:</span><span id="pJobEmail"></span></div>
+                                    <div class="inv__meta-row"><span>Subdivision:</span><span id="pSubdivision"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="inv__details">
+                                <div class="inv__details-row"><span>Film & Type:</span><span id="pFilmType"></span>
+                                </div>
+                                <div class="inv__details-row"><span>Seal Color:</span><span
+                                        id="pSealColor"></span><span>Install Date:</span><span id="pInstallDate"></span>
+                                </div>
+                                <div class="inv__details-row"><span>Special Instructions:</span><span
+                                        id="pSpecialInstructions"></span></div>
+                            </div>
+
+                            <div class="inv__scope">
+                                <div class="inv__scope-label">Scope of Work:</div>
+                                <div class="inv__scope-text" id="pScopeOfWork"></div>
+                            </div>
+
+                            <div class="inv__pricing">
+                                <table class="inv__pricing-table">
+                                    <tr>
+                                        <td>TOTAL</td>
+                                        <td class="inv__amount" id="pTotal"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Instant Rebate</td>
+                                        <td class="inv__amount" id="pRebate"></td>
+                                    </tr>
+                                    <tr class="inv__pricing-grand">
+                                        <td>Grand Total</td>
+                                        <td class="inv__amount" id="pGrandTotal"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deposit</td>
+                                        <td class="inv__amount" id="pDeposit"></td>
+                                    </tr>
+                                    <tr class="inv__pricing-balance">
+                                        <td>Balance</td>
+                                        <td class="inv__amount" id="pBalance"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deposit Check #</td>
+                                        <td id="pDepositCheck"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Balance Check #</td>
+                                        <td id="pBalanceCheck"></td>
+                                    </tr>
+                                </table>
+                                <div class="inv__installer">Installer: <span id="pInstaller"></span></div>
+                            </div>
+
+                            <div class="inv__cancellation">
+                                <h4>BUYER'S RIGHT TO CANCEL</h4>
+                                <p>This is a home solicitation sale, and if you do not want the goods or services, you
+                                    may cancel this agreement by providing written notice to the seller in person, or by
+                                    certified mail. This notice must indicate that you do not want the goods or services
+                                    and must be delivered or postmarked before midnight of the third business day after
+                                    you sign this agreement. If you cancel this agreement, the seller may not keep all
+                                    or part of any cash down payment.</p>
+                            </div>
+
+                            <div class="inv__signatures">
+                                <div class="inv__sig-group">
+                                    <p class="inv__sig-group-label">Customer</p>
+                                    <div class="inv__sig-row">
+                                        <div class="inv__sig-field inv__sig-field--wide">
+                                            <div class="inv__sig-line" contenteditable="true"></div>
+                                            <span>SIGNATURE</span>
+                                        </div>
+                                        <div class="inv__sig-field">
+                                            <div class="inv__sig-line" contenteditable="true"></div>
+                                            <span>PRINT NAME</span>
+                                        </div>
+                                        <div class="inv__sig-field inv__sig-field--narrow">
+                                            <div class="inv__sig-line" contenteditable="true"></div>
+                                            <span>DATE</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inv__sig-group">
+                                    <p class="inv__sig-group-label">Company Representative</p>
+                                    <div class="inv__sig-row">
+                                        <div class="inv__sig-field inv__sig-field--wide">
+                                            <div class="inv__sig-line" contenteditable="true"></div>
+                                            <span>REPRESENTATIVE</span>
+                                        </div>
+                                        <div class="inv__sig-field inv__sig-field--narrow">
+                                            <div class="inv__sig-line" contenteditable="true"></div>
+                                            <span>DATE</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Page 2: TWFS Worksheet -->
+                        <div class="invoice-page invoice-page--worksheet" id="invoicePage2">
+                            <div class="inv__header">
+                                <img src="/images/logo.png" alt="Integrity Window Tinting" class="inv__logo" />
+                                <h3 class="ws-print-title">TWFS Worksheet</h3>
+                            </div>
+                            <div class="ws-print-customer">
+                                <span>Customer: <strong id="pWsCustName"></strong></span>
+                                <span>Date: <strong id="pWsDate"></strong></span>
+                                <span>Invoice #: <strong id="pWsInvNumber"></strong></span>
+                            </div>
+                            <table class="ws-print-table" id="wsPrintTable">
+                                <thead>
+                                    <tr>
+                                        <th>Area / Room</th>
+                                        <th>Removal</th>
+                                        <th>Width</th>
+                                        <th>Height</th>
+                                        <th># Small</th>
+                                        <th># Panes</th>
+                                        <th>SF</th>
+                                        <th>Linear Ft</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="wsPrintBody">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td><strong>Totals</strong></td>
+                                        <td id="pWsTotalRemoval"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td id="pWsTotalSmall"></td>
+                                        <td></td>
+                                        <td id="pWsTotalSF"></td>
+                                        <td id="pWsTotalLinear"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="ws-print-pricing">
+                                <p>Film Need (SF + 15%): <strong id="pWsFilmNeed"></strong> SF</p>
+                                <table class="ws-print-pricing-table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>$/unit</th>
+                                            <th>Rebate</th>
+                                            <th>Cost/unit</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pWsFilmBody">
+                                        <!-- Dynamic film rows rendered by JS -->
+                                    </tbody>
+                                    <tbody>
+                                        <tr>
+                                            <td>Seal</td>
+                                            <td id="pWsPriceSeal"></td>
+                                            <td id="pWsRebateSeal"></td>
+                                            <td id="pWsCostSeal"></td>
+                                            <td id="pWsSubSeal"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Removal</td>
+                                            <td id="pWsPriceRemoval"></td>
+                                            <td id="pWsRebateRemoval"></td>
+                                            <td id="pWsCostRemoval"></td>
+                                            <td id="pWsSubRemoval"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Small Win.</td>
+                                            <td id="pWsPriceSmall"></td>
+                                            <td id="pWsRebateSmall"></td>
+                                            <td id="pWsCostSmall"></td>
+                                            <td id="pWsSubSmall"></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="ws-print-total-row">
+                                            <td colspan="4">Cost Total</td>
+                                            <td id="pWsCostTotal"></td>
+                                        </tr>
+                                        <tr class="ws-print-total-row">
+                                            <td colspan="4">Price Total</td>
+                                            <td id="pWsPriceTotal"></td>
+                                        </tr>
+                                        <tr class="ws-print-total-row">
+                                            <td colspan="4">Less Rebate</td>
+                                            <td id="pWsLessRebate"></td>
+                                        </tr>
+                                        <tr class="ws-print-grand-row">
+                                            <td colspan="4">Grand Total</td>
+                                            <td id="pWsGrandTotal"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="ws-print-instructions">
+                                <p><strong>Special Instructions:</strong></p>
+                                <p id="pWsSpecialInstructions"></p>
+                            </div>
+                            <div class="ws-print-customer-info">
+                                <p><strong>Customer Information:</strong> <span id="pWsFullCustomer"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- ═══════════════ HISTORY TAB ═══════════════ -->
+        <main class="content" id="tabHistory" style="display:none;">
+            <div class="history-panel">
+                <div class="history-toolbar">
+                    <h2>Invoice History</h2>
+                    <div class="history-toolbar__actions">
+                        <input type="text" class="history-search" id="historySearch" placeholder="Search invoices..." />
+                        <button class="btn btn--sm btn--outline" id="btnExportExcel">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                            </svg>
+                            Export Excel
+                        </button>
+                    </div>
+                </div>
+                <div class="history-list" id="historyList">
+                    <p class="history-empty">No invoices saved yet. Create and save your first invoice!</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- CDN Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="invoice.js"></script>
+
+</body>
+
+</html>
