@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function initGate() {
   const gate = document.getElementById('gate');
   const app = document.getElementById('app');
-  const form = document.getElementById('gateForm');
   const input = document.getElementById('gatePassword');
+  const btn = document.getElementById('gateSubmit');
   const error = document.getElementById('gateError');
 
   // Check if already authenticated this session
@@ -33,8 +33,7 @@ function initGate() {
     return;
   }
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  function tryUnlock() {
     if (input.value === ADMIN_PASSWORD) {
       sessionStorage.setItem('inv_auth', 'true');
       gate.style.display = 'none';
@@ -44,6 +43,11 @@ function initGate() {
       input.value = '';
       input.focus();
     }
+  }
+
+  btn.addEventListener('click', tryUnlock);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryUnlock();
   });
 }
 
