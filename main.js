@@ -437,14 +437,15 @@ function initProjectCarousel(totalItems) {
     }
 
     function updateCarousel() {
-        const visible = getVisibleCount();
-        const gapPx = 24;
-        // Each card width = (viewport width - gaps) / visible
-        // Using percentage-based transform: shift by (100% + gap) per card
-        const cardPercent = 100 / visible;
-        const gapOffset = (gapPx * currentIndex);
-        const translateX = -(currentIndex * cardPercent);
-        grid.style.transform = `translateX(calc(${translateX}% - ${gapOffset}px + ${currentIndex * (gapPx / visible)}px))`;
+        const cards = grid.children;
+        if (!cards.length) return;
+        // Measure actual card width + gap from the DOM
+        const firstCard = cards[0];
+        const cardStyle = getComputedStyle(grid);
+        const gap = parseFloat(cardStyle.gap) || 24;
+        const cardWidth = firstCard.offsetWidth + gap;
+        const offset = currentIndex * cardWidth;
+        grid.style.transform = `translateX(-${offset}px)`;
 
         prevBtn.disabled = currentIndex <= 0;
         nextBtn.disabled = currentIndex >= getMaxIndex();
