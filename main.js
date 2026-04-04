@@ -396,7 +396,7 @@ function initGallery() {
             // Render Project cards
             if (projectsGrid && data.projects) {
                 projectsGrid.innerHTML = data.projects.map(item => `
-                    <div class="project-card reveal">
+                    <div class="project-card">
                         <img src="${item.image}" alt="${item.alt}" loading="lazy" />
                         <div class="project-card__overlay"></div>
                         <span class="project-card__caption">${item.caption}</span>
