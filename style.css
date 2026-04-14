@@ -1896,6 +1896,9 @@ a.contact__detail-item:hover {
 }
 
 .ba-card__side img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1903,21 +1906,7 @@ a.contact__detail-item:hover {
   transition: transform 0.6s ease;
 }
 
-/* Safari-specific fixes for before/after card images */
-@supports (-webkit-appearance: none) {
-  .ba-card__side img {
-    object-fit: contain;
-    object-position: center;
-    background: #f8fafc;
-  }
-  
-  @media (max-width: 768px) {
-    .ba-card__side img {
-      object-fit: cover;
-      background: none;
-    }
-  }
-}
+
 
 .ba-card:hover .ba-card__side img {
   transform: scale(1.05);
@@ -2071,6 +2060,9 @@ a.contact__detail-item:hover {
 }
 
 .project-card img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -2078,22 +2070,7 @@ a.contact__detail-item:hover {
   transition: transform 0.6s ease;
 }
 
-/* Safari-specific fixes for better image display */
-@supports (-webkit-appearance: none) {
-  .project-card img {
-    object-fit: contain;
-    object-position: center;
-    background: #f8fafc;
-  }
-  
-  /* Only use cover on smaller screens where aspect ratios are more controlled */
-  @media (max-width: 768px) {
-    .project-card img {
-      object-fit: cover;
-      background: none;
-    }
-  }
-}
+
 
 .project-card:hover img {
   transform: scale(1.05);

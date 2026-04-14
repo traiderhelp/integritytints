@@ -377,11 +377,11 @@ function initGallery() {
                         <div class="ba-card__images">
                             <div class="ba-card__side">
                                 <span class="ba-card__label">Before</span>
-                                <img src="${item.beforeImage}" alt="${item.beforeAlt}" loading="lazy" />
+                                <img src="${item.beforeImage}" alt="${item.beforeAlt}" loading="lazy" width="4032" height="3024" />
                             </div>
                             <div class="ba-card__side">
                                 <span class="ba-card__label">After</span>
-                                <img src="${item.afterImage}" alt="${item.afterAlt}" loading="lazy" />
+                                <img src="${item.afterImage}" alt="${item.afterAlt}" loading="lazy" width="4032" height="3024" />
                             </div>
                             <div class="ba-card__divider"></div>
                         </div>
@@ -397,7 +397,7 @@ function initGallery() {
             if (projectsGrid && data.projects) {
                 projectsGrid.innerHTML = data.projects.map(item => `
                     <div class="project-card">
-                        <img src="${item.image}" alt="${item.alt}" loading="lazy" />
+                        <img src="${item.image}" alt="${item.alt}" loading="lazy" width="4032" height="3024" />
                     </div>
                 `).join('');
 
